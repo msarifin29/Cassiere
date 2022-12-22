@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>208562666884-q3cpua6v1mvi14tfeq9126kqi9ftpkh8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.208562666884-q3cpua6v1mvi14tfeq9126kqi9ftpkh8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBPWEgW5j72wrTh6ONbBpskDFislu4BC9A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>208562666884</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cassiere</string>
+	<key>PROJECT_ID</key>
+	<string>cassiere-7a631</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cassiere-7a631.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:208562666884:ios:b6c387a8bc7628d3e771d1</string>
+</dict>
+</plist>

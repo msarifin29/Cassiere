@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "208562666884",
+    "project_id": "cassiere-7a631",
+    "storage_bucket": "cassiere-7a631.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208562666884:android:87be376b33dcc97de771d1",
+        "android_client_info": {
+          "package_name": "com.example.cassiere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208562666884-u248l4gsns9fof5629pse522ttcqcmku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cassiere",
+            "certificate_hash": "4d7b51f6cf198d02528254bc96512884a91a7b57"
+          }
+        },
+        {
+          "client_id": "208562666884-52vkb51a21iq3g69s5kd6ibsijdqns4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChVoc6efJ9N88kfnQhsJAmcX8bAfNTw-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208562666884-52vkb51a21iq3g69s5kd6ibsijdqns4k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "208562666884-q3cpua6v1mvi14tfeq9126kqi9ftpkh8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cassiere"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
