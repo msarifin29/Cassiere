@@ -27,6 +27,7 @@ var disabledTextColor = Colors.grey[800];
 class AppSize {
   static const double s08 = 0.8;
   static const double s6 = 6.0;
+  static const double s8 = 8.0;
   static const double s12 = 12.0;
   static const double s14 = 14.0;
   static const double s16 = 16.0;

@@ -1,5 +1,6 @@
 {
+    "openai_key": "",
     "modules": [
-      
+        "dashboard_vendor"
     ]
 }

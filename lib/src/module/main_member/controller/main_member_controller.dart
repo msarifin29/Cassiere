@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cassiere/state_util.dart';
-import '../view/main_navigation_view.dart';
+import '../view/main_member_view.dart';
 
-class MainNavigationController extends State<MainNavigationView>
+class MainMemberController extends State<MainMemberView>
     implements MvcController {
-  static late MainNavigationController instance;
-  late MainNavigationView view;
+  static late MainMemberController instance;
+
+  late MainMemberView view;
 
   @override
   void initState() {

@@ -1,4 +1,5 @@
 import 'package:cassiere/core.dart';
+import 'package:cassiere/src/module/main_vendor/view/main_vendor_view.dart';
 import 'package:flutter/material.dart';
 
 class LoginController extends State<LoginView> implements MvcController {
@@ -20,14 +21,14 @@ class LoginController extends State<LoginView> implements MvcController {
   doLoginAsMember() async {
     var isSuccess = await AuthService.doLoginAsMember();
     if (isSuccess) {
-      Get.offAll(const MainNavigationView());
+      Get.offAll(const MainMemberView());
     }
   }
 
   doLoginAsVendor() async {
     var isSuccess = await AuthService.doLoginAsVendor();
     if (isSuccess) {
-      Get.offAll(const MainNavigationView());
+      Get.offAll(const MainVendorView());
     }
   }
 }

@@ -1,25 +1,22 @@
+import 'package:cassiere/src/module/main_vendor/controller/main_vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
 
-class MainNavigationView extends StatefulWidget {
-  const MainNavigationView({Key? key}) : super(key: key);
+class MainVendorView extends StatefulWidget {
+  const MainVendorView({Key? key}) : super(key: key);
 
-  Widget build(context, MainNavigationController controller) {
+  Widget build(context, MainVendorController controller) {
     controller.view = this;
-
+    List<Widget> screens = [
+      const VendorDashboardView(),
+      const ChatView(),
+      const ProfileView(),
+    ];
     return DefaultTabController(
-      length: 4,
+      length: 3,
       initialIndex: controller.selectedIndex,
       child: Scaffold(
-        body: IndexedStack(
-          index: controller.selectedIndex,
-          children: const [
-            DashboardView(),
-            PointHistoryView(),
-            ChatView(),
-            ProfileView(),
-          ],
-        ),
+        body: IndexedStack(index: controller.selectedIndex, children: screens),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: controller.selectedIndex,
           onTap: (newIndex) {
@@ -31,10 +28,10 @@ class MainNavigationView extends StatefulWidget {
               icon: Icon(MdiIcons.homeCircleOutline),
               label: "Home",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(MdiIcons.handCoinOutline),
-              label: "Point",
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(MdiIcons.handCoinOutline),
+            //   label: "Point",
+            // ),
             BottomNavigationBarItem(
               icon: Icon(MdiIcons.chatProcessingOutline),
               label: "Chat",
@@ -50,5 +47,5 @@ class MainNavigationView extends StatefulWidget {
   }
 
   @override
-  State<MainNavigationView> createState() => MainNavigationController();
+  State<MainVendorView> createState() => MainVendorController();
 }

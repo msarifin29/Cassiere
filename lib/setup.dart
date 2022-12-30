@@ -13,4 +13,5 @@ Future initialize() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }

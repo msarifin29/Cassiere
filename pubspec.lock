@@ -555,6 +555,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.3"
+  hive_flutter:
+    dependency: "direct main"
+    description:
+      name: hive_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  hive_generator:
+    dependency: "direct main"
+    description:
+      name: hive_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   http:
     dependency: transitive
     description:
@@ -1002,7 +1016,7 @@ packages:
     source: hosted
     version: "1.9.0"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       url: "https://pub.dartlang.org"

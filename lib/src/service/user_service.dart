@@ -55,7 +55,7 @@ class UserService {
     }
   }
 
-  static uploadPhoto() async {
+  static pickedImage() async {
     final Reference storage = FirebaseStorage.instance.ref();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -69,12 +69,13 @@ class UserService {
     File file = File(result.files.single.path!);
     final uploadTask = storage.child('images').putFile(file);
     final snapshot = await uploadTask.whenComplete(() {});
-    final dowload = await snapshot.ref.getDownloadURL();
+    final imageUrl = await snapshot.ref.getDownloadURL();
     if (kDebugMode) {
-      print("url --------- $dowload");
+      print("url --------- $imageUrl");
     }
     try {
       await uploadTask;
+      _uploadImage(image: imageUrl);
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         print(error);
@@ -82,15 +83,15 @@ class UserService {
     }
   }
 
-  static editPhoto({String? photo}) async {
+  static _uploadImage({required String image}) async {
     final data = await userCollection.get();
     if (data.exists) {
       return await userCollection.update({
-        "photo": photo,
+        "photo": image,
       });
     } else {
       return await userCollection.set({
-        "photo": photo,
+        "photo": image,
       });
     }
   }

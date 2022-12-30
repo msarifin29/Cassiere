@@ -4,10 +4,10 @@ import 'dart:developer';
 import 'package:cassiere/core.dart';
 import 'package:flutter/material.dart';
 
-class DashboardController extends State<DashboardView>
+class MemberDashboardController extends State<MemberDashboardView>
     implements MvcController {
-  static late DashboardController instance;
-  late DashboardView view;
+  static late MemberDashboardController instance;
+  late MemberDashboardView view;
 
   ScrollController scrollController = ScrollController();
 

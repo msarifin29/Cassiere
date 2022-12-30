@@ -3,8 +3,8 @@ import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme() {
-  return ThemeData().copyWith(
-    primaryColor: AppColor.greenColor,
+  return ThemeData(useMaterial3: true).copyWith(
+    // primaryColor: AppColor.greenColor,
     // primarySwatch:  Color(0xffFA533C),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -17,7 +17,6 @@ ThemeData lightTheme() {
       ),
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
       elevation: 0.6,
       titleTextStyle: GoogleFonts.montserrat(
         color: AppColor.blackColor,

@@ -66,10 +66,10 @@ class ProfileController extends State<ProfileView> implements MvcController {
   }
 
   void editUserPhoto() async {
-    const String url =
-        "https://firebasestorage.googleapis.com/v0/b/cassiere-7a631.appspot.com/o/images?alt=media&token=9ee63dde-2fd2-4331-be78-9cf545894454";
-    await UserService.uploadPhoto();
-    await UserService.editPhoto(photo: url);
+    // const String url =
+    // "https://firebasestorage.googleapis.com/v0/b/cassiere-7a631.appspot.com/o/images?alt=media&token=9ee63dde-2fd2-4331-be78-9cf545894454";
+    UserService.pickedImage;
+
     setState(() {});
   }
 }

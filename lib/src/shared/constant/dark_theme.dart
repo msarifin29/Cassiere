@@ -2,7 +2,7 @@ import 'package:cassiere/src/shared/constant/app_size.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme() {
-  return ThemeData.dark().copyWith(
+  return ThemeData.dark(useMaterial3: true).copyWith(
     // primarySwatch:  Color(0xffFA533C),
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: ElevatedButton.styleFrom(

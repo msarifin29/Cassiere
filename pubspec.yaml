@@ -45,6 +45,9 @@ dependencies:
   faker_dart: ^0.1.11
   firebase_storage: ^11.0.8
   path_provider: ^2.0.11
+  sqflite: ^2.2.2
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
 
 dev_dependencies:
   flutter_test:

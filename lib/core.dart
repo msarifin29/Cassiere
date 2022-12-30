@@ -1,18 +1,15 @@
-/*
-We believe, the class name must be unique. 
-If there is a conflicting class name in this file,
-it means you have to rename it to something more unique.
-*/
 export 'package:cassiere/src/module/category_list/controller/category_list_controller.dart';
 export 'package:cassiere/src/module/category_list/view/category_list_view.dart';
 export 'package:cassiere/src/module/chat/controller/chat_controller.dart';
 export 'package:cassiere/src/module/chat/view/chat_view.dart';
-export 'package:cassiere/src/module/dashboard/controller/dashboard_controller.dart';
-export 'package:cassiere/src/module/dashboard/view/dashboard_view.dart';
+export 'package:cassiere/src/module/member_dashboard/controller/member_dashboard_controller.dart';
+export 'package:cassiere/src/module/member_dashboard/view/member_dashboard_view.dart';
+export 'package:cassiere/src/module/vendor_dashboard/controller/vendor_dashboard_controller.dart';
+export 'package:cassiere/src/module/vendor_dashboard/view/vendor_dashboard_view.dart';
 export 'package:cassiere/src/module/login/controller/login_controller.dart';
 export 'package:cassiere/src/module/login/view/login_view.dart';
-export 'package:cassiere/src/module/main_navigation/controller/main_navigation_controller.dart';
-export 'package:cassiere/src/module/main_navigation/view/main_navigation_view.dart';
+export 'package:cassiere/src/module/main_member/controller/main_member_controller.dart';
+export 'package:cassiere/src/module/main_member/view/main_member_view.dart';
 export 'package:cassiere/src/module/point_history/controller/point_history_controller.dart';
 export 'package:cassiere/src/module/point_history/view/point_history_view.dart';
 export 'package:cassiere/src/module/pos/controller/pos_controller.dart';
