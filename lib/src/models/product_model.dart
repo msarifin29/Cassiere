@@ -1,84 +1,61 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// ignore_for_file: must_be_immutable
-
 import 'dart:convert';
 
-class ProductField {
-  static const idColumn = "_id";
-  static const titleColumn = "name";
-  static const priceColumn = "price";
-  static const descriptionColumn = "description";
-  static const imageColumn = "image";
-  static final List<String> values = [
-    idColumn,
-    titleColumn,
-    priceColumn,
-    descriptionColumn,
-    imageColumn
-  ];
-}
+List<ProductModel> productModelFromJson(String str) =>
+    List<ProductModel>.from(json.decode(str));
+
+String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel {
-  final int? id;
-  final String title;
-  final double price;
-  final String? category;
-  final String? description;
-  final String? image;
-  const ProductModel({
-    this.id,
+  ProductModel({
+    required this.id,
     required this.title,
     required this.price,
-    this.category,
-    this.description,
-    this.image,
+    required this.category,
+    required this.description,
+    required this.image,
   });
 
+  String id;
+  String title;
+  double price;
+  String category;
+  String description;
+  String image;
+
   ProductModel copyWith({
-    int? id,
+    String? id,
     String? title,
     double? price,
     String? category,
     String? description,
     String? image,
-  }) {
-    return ProductModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      price: price ?? this.price,
-      category: category ?? this.category,
-      description: description ?? this.description,
-      image: image ?? this.image,
-    );
-  }
+  }) =>
+      ProductModel(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        price: price ?? this.price,
+        category: category ?? this.category,
+        description: description ?? this.description,
+        image: image ?? this.image,
+      );
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'title': title,
-      'price': price,
-      'category': category,
-      'description': description,
-      'image': image,
-    };
-  }
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+        id: json["id"],
+        title: json["title"],
+        price: json["price"],
+        category: json["category"],
+        description: json["description"],
+        image: json["image"],
+      );
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
-    return ProductModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      title: map['title'] as String,
-      price: map['price'] as double,
-      category: map['category'] != null ? map['category'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      image: map['image'] != null ? map['image'] as String : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ProductModel.fromJson(String source) =>
-      ProductModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "price": price,
+        "category": category,
+        "description": description,
+        "image": image,
+      };
 
   @override
   String toString() {

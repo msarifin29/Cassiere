@@ -9,10 +9,6 @@ class MemberDashboardView extends StatefulWidget {
   Widget build(context, MemberDashboardController controller) {
     controller.view = this;
 
-    // var appBarColor = Theme.of(context).primaryColor;
-    // if (AuthService.isVendor) {
-    //   appBarColor = Colors.orange;
-    // }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.greenColor,

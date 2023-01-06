@@ -1,6 +1,6 @@
+import 'package:cassiere/src/service/remote.dart/product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/state_util.dart';
-import '../../../service/hive_service.dart';
 import '../view/product_list_view.dart';
 
 class ProductListController extends State<ProductListView>
@@ -12,7 +12,6 @@ class ProductListController extends State<ProductListView>
 
   @override
   void initState() {
-    readAllProduct();
     instance = this;
     super.initState();
   }
@@ -23,14 +22,8 @@ class ProductListController extends State<ProductListView>
   @override
   Widget build(BuildContext context) => widget.build(context, this);
 
-  Future<void> readAllProduct() async {
-    isReady = true;
-    HiveProductService.instance.load();
-    setState(() {});
-  }
-
-  void deleteProduct(Map products) async {
-    HiveProductService.instance.delete(products);
+  void deleteProduct(String docId) async {
+    await ProductService.instance.deleteProduct(docId: docId);
     setState(() {});
   }
 }

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cassiere/src/service/user_service.dart';
+import 'package:cassiere/src/service/remote.dart/user_service.dart';
 
 class PointService {
   static addPoint({

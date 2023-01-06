@@ -1,4 +1,4 @@
-import 'package:cassiere/src/service/user_service.dart';
+import 'package:cassiere/src/service/remote.dart/user_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

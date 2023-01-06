@@ -1,3 +1,4 @@
+import 'package:cassiere/src/models/product_model.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
@@ -7,10 +8,12 @@ import '../widget/custom_form.dart';
 class ProductFormView extends StatefulWidget {
   const ProductFormView({
     Key? key,
-    this.productModels,
+    this.products,
+    this.docId,
   }) : super(key: key);
 
-  final Map? productModels;
+  final ProductModel? products;
+  final String? docId;
 
   Widget build(context, ProductFormController controller) {
     controller.view = this;
@@ -32,32 +35,71 @@ class ProductFormView extends StatefulWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      height: AppSize.s200,
-                      width: AppSize.s200,
-                      decoration: BoxDecoration(
-                        color: AppColor.grey300,
-                        borderRadius: BorderRadius.circular(AppSize.s12),
+                    if (controller.isEditMode == true)
+                      Container(
+                        height: AppSize.s200,
+                        width: AppSize.s200,
+                        decoration: BoxDecoration(
+                          color: AppColor.grey300,
+                          borderRadius: BorderRadius.circular(AppSize.s12),
+                        ),
+                        child: Image.network(products!.image),
+                      )
+                    else
+                      Container(
+                        height: AppSize.s200,
+                        width: AppSize.s200,
+                        decoration: BoxDecoration(
+                          color: AppColor.grey300,
+                          borderRadius: BorderRadius.circular(AppSize.s12),
+                        ),
+                        child: controller.image != null
+                            ? Image.file(controller.image!)
+                            : const Icon(MdiIcons.camera),
                       ),
-                      child: controller.image != null
-                          ? Image.file(
-                              controller.image!,
-                              fit: BoxFit.cover,
-                            )
-                          : const Icon(
-                              MdiIcons.cameraOutline,
-                              size: AppSize.s36,
-                              color: AppColor.whiteColor,
-                            ),
-                    ),
                     SizedBox(
                       height: AppSize.s40,
                       width: sizeWidth * 0.3,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await controller.pickedImage();
+                      child: Builder(
+                        builder: (context) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ElevatedButton.icon(
+                                              onPressed: () async {
+                                                controller.pickedImage(
+                                                    ImageSource.camera);
+                                                await Get.back();
+                                              },
+                                              icon: const Icon(MdiIcons.camera),
+                                              label: const Text('Camera'),
+                                            ),
+                                            ElevatedButton.icon(
+                                              onPressed: () async {
+                                                controller.pickedImage(
+                                                    ImageSource.gallery);
+                                                await Get.back();
+                                              },
+                                              icon: const Icon(
+                                                  MdiIcons.fileImage),
+                                              label: const Text('Galery'),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                            },
+                            child: const Text("Slect Image"),
+                          );
                         },
-                        child: const Text("Image"),
                       ),
                     ),
                   ],
@@ -108,7 +150,9 @@ class ProductFormView extends StatefulWidget {
                   width: sizeWidth * 0.8,
                   height: AppSize.s60,
                   child: ElevatedButton(
-                    onPressed: () => controller.addProduct(),
+                    onPressed: () {
+                      controller.addOrUpdateProduct();
+                    },
                     child: const Text("Save"),
                   ),
                 ),

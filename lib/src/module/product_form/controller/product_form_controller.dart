@@ -1,7 +1,10 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'dart:io';
 
 import 'package:cassiere/core.dart';
-import 'package:cassiere/src/service/hive_service.dart';
+import 'package:cassiere/src/models/product_model.dart';
+import 'package:cassiere/src/service/remote.dart/product_service.dart';
 import 'package:flutter/material.dart';
 
 class ProductFormController extends State<ProductFormView> {
@@ -9,16 +12,24 @@ class ProductFormController extends State<ProductFormView> {
   late ProductFormView view;
 
   String title = "";
-  double price = 0.0;
+  double price = 0;
   String description = "";
   String category = "";
-  HiveProductService hiveService = HiveProductService.instance;
-  bool isReady = false;
   File? image;
+
+  bool isReady = false;
+  ProductService productService = ProductService.instance;
 
   @override
   void initState() {
     instance = this;
+    if (widget.products != null) {
+      title = widget.products!.title;
+      price = widget.products!.price;
+      category = widget.products!.category;
+      description = widget.products!.description;
+      image = File(widget.products!.image);
+    }
     super.initState();
   }
 
@@ -29,36 +40,52 @@ class ProductFormController extends State<ProductFormView> {
 
   GlobalKey<FormState> formKey = GlobalKey();
 
-  Future<void> pickedImage() async {
+  bool get isEditMode => widget.products != null;
+
+  Future pickedImage(ImageSource imageSource) async {
     final XFile? imageGalery =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    image = File(imageGalery!.path);
-    // final stringPath = image.path;
-
+        await ImagePicker().pickImage(source: imageSource);
+    if (imageGalery == null) return;
+    image = File(imageGalery.path);
     setState(() {});
   }
 
-  addProduct() async {
+  String convertUniqeTime() {
+    return DateTime.now().millisecondsSinceEpoch.toString();
+  }
+
+  void addOrUpdateProduct() async {
     if (!formKey.currentState!.validate()) return;
-    var result = {
-      "title": title,
-      "price": price,
-      "category": category,
-      "description": description,
-      "image": image!.path,
-    };
-    hiveService.add(result);
-    setState(() {});
-    Get.back();
-    print("product :${mainStorage.get(productBox)}");
-  }
 
-  void editProduct() async {
-    setState(() {});
-  }
+    if (isEditMode == true) {
+      // DocumentReference docRef =
+      //     await productService.updateImage(widget.products!.image);
+      ProductModel products = ProductModel(
+          id: widget.products!.id,
+          title: title,
+          price: price,
+          category: category,
+          description: description,
+          image: widget.products!.image);
+      await productService.updateProduct(products.toJson(),
+          docId: widget.docId!);
+      setState(() {});
+      Get.back();
+    } else {
+      String urlImage = await productService.uploadImage(image!);
+      final id = ProductService.instance.firestore.doc();
 
-  void deleteProduct() async {
-    setState(() {});
+      ProductModel newProduct = ProductModel(
+          id: id.id,
+          title: title,
+          price: price,
+          category: category,
+          description: description,
+          image: urlImage);
+      await productService.addProduct(newProduct.toJson());
+      setState(() {});
+      Get.back();
+    }
   }
 
   @override
