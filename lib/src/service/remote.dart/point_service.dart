@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cassiere/src/service/remote.dart/user_service.dart';
+import 'package:flutter/foundation.dart';
 
 class PointService {
   static addPoint({
@@ -9,14 +10,16 @@ class PointService {
     await FirebaseFirestore.instance.collection("points").add({
       "point": point,
       "total": total,
-      "user": UserService.getUserData(),
+      "user": UserService.instance.getUserData(),
     });
-    print("Add point success!");
-
-    await UserService.updatePoint(
+    if (kDebugMode) {
+      print("Add point success!");
+    }
+    await UserService.instance.updatePoint(
       point: point,
     );
-
-    print("Update point success!");
+    if (kDebugMode) {
+      print("Update point success!");
+    }
   }
 }

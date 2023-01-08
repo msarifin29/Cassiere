@@ -21,7 +21,6 @@ export 'package:cassiere/src/module/product_list/view/product_list_view.dart';
 export 'package:cassiere/src/module/profile/controller/profile_controller.dart';
 export 'package:cassiere/src/module/profile/view/profile_view.dart';
 export 'package:cassiere/src/service/remote.dart/auth_service.dart';
-export 'package:cassiere/src/service/local_storage_service.dart';
 export 'package:cassiere/src/service/remote.dart/point_service.dart';
 export 'package:cassiere/src/service/remote.dart/user_service.dart';
 export 'package:cassiere/src/shared/constant/dark_theme.dart';

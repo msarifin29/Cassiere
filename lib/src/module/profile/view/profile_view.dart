@@ -18,7 +18,7 @@ class ProfileView extends StatefulWidget {
         centerTitle: true,
         actions: [
           PopupMenuButton(
-            color: Colors.blue,
+            color: AppColor.whiteColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSize.s12),
             ),
@@ -68,10 +68,15 @@ class ProfileView extends StatefulWidget {
                       child: CircleAvatar(
                         radius: AppSize.s30,
                         backgroundColor: AppColor.grey400,
-                        child: const Icon(
-                          MdiIcons.cameraOutline,
-                          size: AppSize.s30,
+                        child: IconButton(
                           color: Colors.white,
+                          icon: const Icon(
+                            MdiIcons.cameraOutline,
+                            size: AppSize.s30,
+                          ),
+                          onPressed: () {
+                            controller.editUserPhoto();
+                          },
                         ),
                       ),
                     ),
@@ -81,45 +86,18 @@ class ProfileView extends StatefulWidget {
               const SizedBox(
                 height: AppSize.s40,
               ),
-              ListTile(
-                leading: const Icon(MdiIcons.accountBadgeOutline),
-                title: const Text(
-                  "Name",
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                subtitle: Text(
-                  "${user['name']}",
-                  style: const TextStyle(
-                    fontSize: AppSize.s16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                trailing: IconButton(
-                  onPressed: () => controller.editUserName(
-                      context: context, name: user["name"]),
-                  icon: const Icon(MdiIcons.pencilOutline),
-                ),
+              CustomListTile(
+                leadingIcon: MdiIcons.accountBadgeOutline,
+                title: "Name",
+                subtitle: "${user['name']}",
+                trailingIcon: MdiIcons.pencilOutline,
+                onPressed: () => controller.editUserName(
+                    context: context, name: user["name"]),
               ),
-              ListTile(
-                leading: const Icon(MdiIcons.emailCheckOutline),
-                title: const Text(
-                  "Email",
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                subtitle: Text(
-                  "${user['email']}",
-                  style: const TextStyle(
-                    fontSize: AppSize.s16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+              CustomListTile(
+                  title: "Email",
+                  subtitle: "${user['email']}",
+                  leadingIcon: MdiIcons.emailCheckOutline),
             ],
           );
         },
@@ -129,4 +107,44 @@ class ProfileView extends StatefulWidget {
 
   @override
   State<ProfileView> createState() => ProfileController();
+}
+
+class CustomListTile extends StatelessWidget {
+  const CustomListTile({
+    super.key,
+    required this.leadingIcon,
+    required this.title,
+    required this.subtitle,
+    this.trailingIcon,
+    this.onPressed,
+  });
+  final IconData leadingIcon;
+  final String title;
+  final String subtitle;
+  final IconData? trailingIcon;
+  final Function()? onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(leadingIcon),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: AppSize.s14,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      trailing: IconButton(
+        onPressed: onPressed,
+        icon: Icon(trailingIcon),
+      ),
+    );
+  }
 }

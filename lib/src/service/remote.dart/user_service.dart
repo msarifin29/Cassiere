@@ -1,10 +1,5 @@
-import 'dart:io';
-
-import 'package:cassiere/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 
 DocumentReference get userCollection {
   final userId = FirebaseAuth.instance.currentUser!;
@@ -12,7 +7,11 @@ DocumentReference get userCollection {
 }
 
 class UserService {
-  static createUserIfNotExists() async {
+  UserService._();
+  static final UserService instance = UserService._();
+  factory UserService() => instance;
+
+  Future<void> createUserIfNotExists() async {
     var snapshot = await userCollection.get();
     if (!snapshot.exists) {
       await userCollection.set({
@@ -25,7 +24,7 @@ class UserService {
     }
   }
 
-  static updatePoint({
+  Future<void> updatePoint({
     required double point,
   }) async {
     await userCollection.update({
@@ -33,7 +32,7 @@ class UserService {
     });
   }
 
-  static getUserData() {
+  getUserData() {
     var user = {
       "id": FirebaseAuth.instance.currentUser!.uid,
       "email": FirebaseAuth.instance.currentUser!.email,
@@ -42,7 +41,7 @@ class UserService {
     return user;
   }
 
-  static editUserName(String name) async {
+  Future<void> editUserName(String name) async {
     final data = await userCollection.get();
     if (data.exists) {
       return await userCollection.update({
@@ -55,43 +54,44 @@ class UserService {
     }
   }
 
-  static pickedImage() async {
-    final Reference storage = FirebaseStorage.instance.ref();
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: [
-        "png",
-        "jpg",
-      ],
-      allowMultiple: false,
-    );
-    if (result == null) return;
-    File file = File(result.files.single.path!);
-    final uploadTask = storage.child('images').putFile(file);
-    final snapshot = await uploadTask.whenComplete(() {});
-    final imageUrl = await snapshot.ref.getDownloadURL();
-    if (kDebugMode) {
-      print("url --------- $imageUrl");
-    }
-    try {
-      await uploadTask;
-      _uploadImage(image: imageUrl);
-    } on FirebaseException catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
-    }
-  }
+  // Future<String> pickedImage() async {
+  //   final Reference storage = FirebaseStorage.instance.ref();
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     type: FileType.custom,
+  //     allowedExtensions: [
+  //       "png",
+  //       "jpg",
+  //     ],
+  //     allowMultiple: false,
+  //   );
+  //   if (result == null) return;
+  //   File file = File(result.files.single.path!);
+  //   final uploadTask = storage.child('images').putFile(file);
+  //   final snapshot = await uploadTask.whenComplete(() {});
+  //   final imageUrl = await snapshot.ref.getDownloadURL();
+  //   return imageUrl;
+  //   if (kDebugMode) {
+  //     print("url --------- $imageUrl");
+  //   }
+  //   try {
+  //     await uploadTask;
+  //     uploadImage(image: imageUrl);
+  //   } on FirebaseException catch (error) {
+  //     if (kDebugMode) {
+  //       print(error);
+  //     }
+  //   }
+  // }
 
-  static _uploadImage({required String image}) async {
+  Future<void> uploadImage({required String imageUrl}) async {
     final data = await userCollection.get();
     if (data.exists) {
       return await userCollection.update({
-        "photo": image,
+        "photo": imageUrl,
       });
     } else {
       return await userCollection.set({
-        "photo": image,
+        "photo": imageUrl,
       });
     }
   }

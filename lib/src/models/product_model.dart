@@ -11,6 +11,7 @@ class ProductModel {
     required this.title,
     required this.price,
     required this.category,
+    required this.quantity,
     required this.description,
     required this.image,
   });
@@ -19,6 +20,7 @@ class ProductModel {
   String title;
   double price;
   String category;
+  int quantity;
   String description;
   String image;
 
@@ -27,6 +29,7 @@ class ProductModel {
     String? title,
     double? price,
     String? category,
+    int? quantity,
     String? description,
     String? image,
   }) =>
@@ -35,6 +38,7 @@ class ProductModel {
         title: title ?? this.title,
         price: price ?? this.price,
         category: category ?? this.category,
+        quantity: quantity ?? this.quantity,
         description: description ?? this.description,
         image: image ?? this.image,
       );
@@ -44,6 +48,7 @@ class ProductModel {
         title: json["title"],
         price: json["price"],
         category: json["category"],
+        quantity: json["quantity"],
         description: json["description"],
         image: json["image"],
       );
@@ -53,13 +58,14 @@ class ProductModel {
         "title": title,
         "price": price,
         "category": category,
+        "quantity": quantity,
         "description": description,
         "image": image,
       };
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, title: $title, price: $price, category: $category, description: $description, image: $image)';
+    return 'ProductModel(id: $id, title: $title, price: $price, category: $category,quantity : $quantity, description: $description, image: $image)';
   }
 
   @override
@@ -70,6 +76,7 @@ class ProductModel {
         other.title == title &&
         other.price == price &&
         other.category == category &&
+        other.quantity == quantity &&
         other.description == description &&
         other.image == image;
   }
@@ -80,6 +87,7 @@ class ProductModel {
         title.hashCode ^
         price.hashCode ^
         category.hashCode ^
+        quantity.hashCode ^
         description.hashCode ^
         image.hashCode;
   }

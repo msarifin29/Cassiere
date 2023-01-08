@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'core.dart';
-import 'src/service/hive_service.dart';
+import 'src/service/local_service.dart/hive_service.dart';
 
 void main() async {
   await initialize();

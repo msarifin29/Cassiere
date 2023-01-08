@@ -1,4 +1,5 @@
 import 'package:cassiere/src/models/product_model.dart';
+import 'package:cassiere/src/module/product_form/widget/select_image_dialog.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
@@ -64,38 +65,45 @@ class ProductFormView extends StatefulWidget {
                         builder: (context) {
                           return ElevatedButton(
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            ElevatedButton.icon(
-                                              onPressed: () async {
-                                                controller.pickedImage(
-                                                    ImageSource.camera);
-                                                await Get.back();
-                                              },
-                                              icon: const Icon(MdiIcons.camera),
-                                              label: const Text('Camera'),
-                                            ),
-                                            ElevatedButton.icon(
-                                              onPressed: () async {
-                                                controller.pickedImage(
-                                                    ImageSource.gallery);
-                                                await Get.back();
-                                              },
-                                              icon: const Icon(
-                                                  MdiIcons.fileImage),
-                                              label: const Text('Galery'),
-                                            ),
-                                          ],
-                                        ),
-                                      ));
+                              selectImageDialog(onPressedCamera: () async {
+                                controller.pickedImage(ImageSource.camera);
+                                await Get.back();
+                              }, onPressedGalery: () async {
+                                controller.pickedImage(ImageSource.gallery);
+                                await Get.back();
+                              });
+                              // showDialog(
+                              //     context: context,
+                              //     builder: (context) => AlertDialog(
+                              //           content: Column(
+                              //             mainAxisSize: MainAxisSize.min,
+                              //             crossAxisAlignment:
+                              //                 CrossAxisAlignment.center,
+                              //             mainAxisAlignment:
+                              //                 MainAxisAlignment.spaceAround,
+                              //             children: [
+                              //               ElevatedButton.icon(
+                              //                 onPressed: () async {
+                              //                   controller.pickedImage(
+                              //                       ImageSource.camera);
+                              //                   await Get.back();
+                              //                 },
+                              //                 icon: const Icon(MdiIcons.camera),
+                              //                 label: const Text('Camera'),
+                              //               ),
+                              //               ElevatedButton.icon(
+                              //                 onPressed: () async {
+                              //                   controller.pickedImage(
+                              //                       ImageSource.gallery);
+                              //                   await Get.back();
+                              //                 },
+                              //                 icon: const Icon(
+                              //                     MdiIcons.fileImage),
+                              //                 label: const Text('Galery'),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ));
                             },
                             child: const Text("Slect Image"),
                           );

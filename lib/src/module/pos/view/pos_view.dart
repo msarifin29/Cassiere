@@ -1,105 +1,73 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
+
+import '../widget/card_pos_product.dart';
 
 class PosView extends StatefulWidget {
   const PosView({Key? key}) : super(key: key);
 
   Widget build(context, PosController controller) {
     controller.view = this;
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: const Text("Pos"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: Get.height * 0.8,
-            child: ListView.builder(
-              itemCount: controller.listProduct.length,
-              itemBuilder: (context, index) {
-                var item = controller.listProduct[index];
-                // item["qty"] = item["qty"] ?? 0;
-
-                return Card(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[200],
-                      backgroundImage: NetworkImage(
-                        item.image,
-                      ),
-                    ),
-                    title: Text(item.title),
-                    subtitle: Text("${item.price} USD"),
-                    trailing: SizedBox(
-                      width: 120.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.blueGrey,
-                            radius: 12.0,
-                            child: Center(
-                              child: IconButton(
-                                onPressed: () {
-                                  // item["qty"]--;
-                                  controller.setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 9.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "0",
-                              // "${item["qty"]}",
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                          CircleAvatar(
-                            backgroundColor: Colors.blueGrey,
-                            radius: 12.0,
-                            child: Center(
-                              child: IconButton(
-                                onPressed: () {
-                                  // item["qty"]++;
-                                  controller.setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 9.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+      body: SizedBox(
+        height: double.infinity,
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.75,
+              child: ListView.builder(
+                itemCount: controller.listProduct.length,
+                itemBuilder: (context, index) {
+                  final item = controller.listProduct[index];
+                  return CardPosProduct(
+                    item: item,
+                    decrementQuantity: () {
+                      if (item.quantity > 0) {
+                        item.quantity--;
+                      }
+                      controller.setState(() {});
+                    },
+                    incrementQuantity: () {
+                      item.quantity++;
+                      controller.setState(() {});
+                    },
+                  );
+                },
+              ),
+            ),
+            Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(left: AppSize.s50),
+                  child: Text(
+                      "Total : Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(controller.totalPrice)}",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.headline6),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: AppSize.s20, vertical: AppSize.s8),
+                  width: MediaQuery.of(context).size.width,
+                  height: AppSize.s60,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(MdiIcons.checkCircle),
+                    label: const Text("Checkout"),
+                    onPressed: () => controller.checkOutPayment(),
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(12.0),
-            width: MediaQuery.of(context).size.width,
-            height: 60,
-            child: ElevatedButton.icon(
-              icon: const Icon(MdiIcons.checkCircle),
-              label: const Text("Checkout"),
-              onPressed: () => controller.doCheckout(),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

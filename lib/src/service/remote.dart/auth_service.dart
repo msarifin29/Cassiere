@@ -9,7 +9,7 @@ class AuthService {
 
   static doLoginAsMember() async {
     var isLoggedIn = await doGoogleLogin();
-    await UserService.createUserIfNotExists();
+    await UserService.instance.createUserIfNotExists();
     if (isLoggedIn) {
       currentUser = FirebaseAuth.instance.currentUser!;
       isMember = true;
@@ -19,7 +19,7 @@ class AuthService {
 
   static doLoginAsVendor() async {
     var isLoggedIn = await doGoogleLogin();
-    await UserService.createUserIfNotExists();
+    await UserService.instance.createUserIfNotExists();
     if (isLoggedIn) {
       currentUser = FirebaseAuth.instance.currentUser!;
       isVendor = true;

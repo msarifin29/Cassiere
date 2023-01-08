@@ -77,7 +77,8 @@ class ProductListView extends StatefulWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(item.title),
-                              Text(item.price.toString()),
+                              Text(
+                                  "Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.price)}"),
                               Text(item.category),
                             ],
                           ),

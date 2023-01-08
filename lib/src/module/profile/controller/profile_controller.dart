@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:cassiere/core.dart';
+import 'package:cassiere/src/service/remote.dart/firebase_storage_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ProfileController extends State<ProfileView> implements MvcController {
   static late ProfileController instance;
   late ProfileView view;
   late TextEditingController userController;
+  File? image;
 
   @override
   void initState() {
@@ -36,10 +41,6 @@ class ProfileController extends State<ProfileView> implements MvcController {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        void submit() {
-          Navigator.of(context).pop(userController.text);
-        }
-
         return AlertDialog(
           content: TextFormField(
             autofocus: true,
@@ -55,21 +56,32 @@ class ProfileController extends State<ProfileView> implements MvcController {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueGrey,
               ),
-              onPressed: submit,
+              onPressed: () {
+                Navigator.of(context).pop(userController.text);
+              },
               child: const Text("Save"),
             ),
           ],
         );
       },
     );
-    await UserService.editUserName(name);
+    await UserService.instance.editUserName(name);
+  }
+
+  Future _pickedImage() async {
+    final XFile? imageGalery =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (imageGalery == null) return;
+    image = File(imageGalery.path);
   }
 
   void editUserPhoto() async {
-    // const String url =
-    // "https://firebasestorage.googleapis.com/v0/b/cassiere-7a631.appspot.com/o/images?alt=media&token=9ee63dde-2fd2-4331-be78-9cf545894454";
-    UserService.pickedImage;
-
+    await _pickedImage();
+    String urlImage = await FirebaseStorageService.instance.uploadImage(image!);
+    UserService.instance.uploadImage(imageUrl: urlImage);
+    if (kDebugMode) {
+      print("sukses upload image");
+    }
     setState(() {});
   }
 }

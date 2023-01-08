@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cassiere/core.dart';
 import 'package:cassiere/src/models/product_model.dart';
+import 'package:cassiere/src/service/remote.dart/firebase_storage_service.dart';
 import 'package:cassiere/src/service/remote.dart/product_service.dart';
 import 'package:flutter/material.dart';
 
@@ -58,13 +59,12 @@ class ProductFormController extends State<ProductFormView> {
     if (!formKey.currentState!.validate()) return;
 
     if (isEditMode == true) {
-      // DocumentReference docRef =
-      //     await productService.updateImage(widget.products!.image);
       ProductModel products = ProductModel(
           id: widget.products!.id,
           title: title,
           price: price,
           category: category,
+          quantity: 1,
           description: description,
           image: widget.products!.image);
       await productService.updateProduct(products.toJson(),
@@ -72,7 +72,8 @@ class ProductFormController extends State<ProductFormView> {
       setState(() {});
       Get.back();
     } else {
-      String urlImage = await productService.uploadImage(image!);
+      String urlImage =
+          await FirebaseStorageService.instance.uploadImage(image!);
       final id = ProductService.instance.firestore.doc();
 
       ProductModel newProduct = ProductModel(
@@ -80,6 +81,7 @@ class ProductFormController extends State<ProductFormView> {
           title: title,
           price: price,
           category: category,
+          quantity: 1,
           description: description,
           image: urlImage);
       await productService.addProduct(newProduct.toJson());
