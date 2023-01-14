@@ -1,3 +1,4 @@
+import 'package:cassiere/core.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -18,22 +19,24 @@ class CustomTextIcon extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              size: 40.0,
-              color: AppColor.lightBlueColor,
-            ),
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-                color: AppColor.lightBlueColor,
+        child: Card(
+          color: AppColor.cardColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: AppSize.s100,
+                color: AppColor.whiteColor,
               ),
-            ),
-          ],
+              Text(
+                text,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppColor.whiteColor,
+                    ),
+              ),
+            ],
+          ),
         ),
       ),
     );

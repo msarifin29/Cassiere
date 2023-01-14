@@ -7,6 +7,7 @@ class QDropdownField extends StatefulWidget {
   final String? Function(String? value)? validator;
   final String? value;
   final bool emptyMode;
+  final Color? color;
   final Function(dynamic value, String? label) onChanged;
 
   const QDropdownField({
@@ -14,6 +15,7 @@ class QDropdownField extends StatefulWidget {
     required this.label,
     required this.items,
     required this.onChanged,
+    this.color = Colors.grey,
     this.value,
     this.validator,
     this.emptyMode = true,
@@ -93,7 +95,7 @@ class _QDropdownFieldState extends State<QDropdownField> {
                 ),
                 underline: Container(
                   height: 0,
-                  color: Colors.grey[300],
+                  color: widget.color,
                 ),
                 onChanged: (String? newValue) {
                   if (newValue == "-" && widget.emptyMode) {

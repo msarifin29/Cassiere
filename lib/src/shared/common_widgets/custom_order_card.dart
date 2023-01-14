@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({
+class CustomOrderCard extends StatelessWidget {
+  const CustomOrderCard({
     Key? key,
     required this.title,
     required this.value,
@@ -31,9 +31,7 @@ class CustomCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                      ),
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                     const SizedBox(
                       height: 6.0,
@@ -69,8 +67,8 @@ class CustomCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: const Icon(
-                  Icons.list,
+                child: Icon(
+                  icon,
                   size: 24.0,
                   color: Colors.white,
                 ),

@@ -27,9 +27,13 @@ class ProfileController extends State<ProfileView> implements MvcController {
   @override
   Widget build(BuildContext context) => widget.build(context, this);
 
-  doLogout() async {
-    await AuthService.doLogout();
-    Get.offAll(const LoginView());
+  signOut(BuildContext context) async {
+    // await AuthService.doLogout();
+    // Get.offAll(const LoginView());
+    await logOutDialog(context, onContinue: () async {
+      await AuthService.doLogout();
+      Get.offAll(const LoginView());
+    });
   }
 
   void editUserName({
@@ -77,7 +81,8 @@ class ProfileController extends State<ProfileView> implements MvcController {
 
   void editUserPhoto() async {
     await _pickedImage();
-    String urlImage = await FirebaseStorageService.instance.uploadImage(image!);
+    String urlImage = await FirebaseStorageService.instance
+        .uploadImage(image!, rootChild: "profile");
     UserService.instance.uploadImage(imageUrl: urlImage);
     if (kDebugMode) {
       print("sukses upload image");

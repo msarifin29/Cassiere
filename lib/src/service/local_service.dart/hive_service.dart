@@ -1,37 +1,24 @@
+import 'package:cassiere/src/models/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-late Box mainStorage;
-
-const String productBox = "products";
 
 class HiveProductService {
   static final HiveProductService instance = HiveProductService._();
   factory HiveProductService() => instance;
   HiveProductService._();
-  List listProducts = [];
+  late Box<ProductModel> productBox;
 
-  save() async {
-    mainStorage.put(productBox, listProducts);
+  Future<void> init() async {
+    // productBox = await Hive.openBox<ProductModel>("productBox");
+    await Hive.initFlutter();
+    Hive.registerAdapter(ProductModelAdapter());
+    HiveProductService.instance.productBox =
+        await Hive.openBox<ProductModel>("productBox");
   }
 
-  load() async {
-    listProducts = mainStorage.get(productBox) ?? [];
+  Future<void> assignAllProduct({required List<ProductModel> products}) async {
+    await productBox.clear();
+    await productBox.addAll(products);
   }
 
-  add(Map newProduct) async {
-    listProducts.add(newProduct);
-    await save();
-  }
-
-  delete(Map product) async {
-    listProducts.remove(product);
-    await save();
-  }
-
-  update(int index, Map newProduct) async {
-    listProducts[index] = newProduct;
-    await save();
-  }
-
-  initializerHiveDB() async {}
+  List<ProductModel> getProducts() => productBox.values.toList();
 }

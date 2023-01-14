@@ -8,7 +8,7 @@ class MainMemberView extends StatefulWidget {
     controller.view = this;
 
     return DefaultTabController(
-      length: 4,
+      length: 3,
       initialIndex: controller.selectedIndex,
       child: Scaffold(
         body: IndexedStack(
@@ -16,7 +16,7 @@ class MainMemberView extends StatefulWidget {
           children: const [
             MemberDashboardView(),
             PointHistoryView(),
-            ChatView(),
+            // ChatView(),
             ProfileView(),
           ],
         ),
@@ -35,10 +35,10 @@ class MainMemberView extends StatefulWidget {
               icon: Icon(MdiIcons.handCoinOutline),
               label: "Point",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(MdiIcons.chatProcessingOutline),
-              label: "Chat",
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(MdiIcons.chatProcessingOutline),
+            //   label: "Chat",
+            // ),
             BottomNavigationBarItem(
               icon: Icon(MdiIcons.accountCircleOutline),
               label: "Account",

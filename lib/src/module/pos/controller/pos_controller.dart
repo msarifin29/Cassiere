@@ -1,8 +1,9 @@
 import 'package:cassiere/src/models/product_model.dart';
+import 'package:cassiere/src/service/local_service.dart/hive_service.dart';
 import 'package:cassiere/src/service/remote.dart/product_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:cassiere/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -11,6 +12,8 @@ class PosController extends State<PosView> implements MvcController {
   late PosView view;
 
   List<ProductModel> listProduct = [];
+
+  final HiveProductService _hiveProductService = HiveProductService.instance;
 
   @override
   void initState() {
@@ -26,11 +29,16 @@ class PosController extends State<PosView> implements MvcController {
   Widget build(BuildContext context) => widget.build(context, this);
 
   void fetchAllProduct() async {
-    var result = await ProductService.instance.fetchAllProduct();
+    var result = await ProductService.instance.readAllProduct();
     final item = result.docs
         .map((e) => ProductModel.fromJson(e.data() as Map<String, dynamic>));
 
-    listProduct = item.toList();
+    if (_hiveProductService.getProducts().isNotEmpty) {
+      // get product from Api
+      listProduct = item.toList();
+    }
+    // Save products to local db
+    _hiveProductService.assignAllProduct(products: item.toList());
     setState(() {});
   }
 
@@ -38,7 +46,7 @@ class PosController extends State<PosView> implements MvcController {
     double subtotal = 0.0;
     for (var i = 0; i < listProduct.length; i++) {
       if (listProduct[i].price != 0) {
-        subtotal += listProduct[i].quantity * listProduct[i].price.toInt();
+        subtotal += listProduct[i].quantity * listProduct[i].price!.toInt();
       }
     }
     return subtotal;
@@ -49,7 +57,7 @@ class PosController extends State<PosView> implements MvcController {
     var qrCodeString = jsonEncode({
       "total": totalPrice,
       "point": totalPrice * 10 / 100,
-      "items": listProduct,
+      // "items": listProduct,
       "payment_method": "Cash", //Dana | OVO | Gopay
       "vendor": {
         "id": FirebaseAuth.instance.currentUser!.uid,
@@ -62,12 +70,12 @@ class PosController extends State<PosView> implements MvcController {
       title: "Order success",
       children: [
         SizedBox(
-          height: 120.0,
-          width: 120.0,
+          height: 300.0,
+          width: 300,
           child: QrImage(
             data: qrCodeString,
             version: QrVersions.auto,
-            size: 200.0,
+            // size: 350.0,
           ),
         ),
       ],

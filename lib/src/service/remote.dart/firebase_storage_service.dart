@@ -9,19 +9,34 @@ class FirebaseStorageService {
 
   UploadTask? _uploadTask;
 
-  String convertUniqeTime = DateTime.now().millisecondsSinceEpoch.toString();
+  String convertUniqeTime = DateTime.now().microsecondsSinceEpoch.toString();
 
-  Future uploadImage(File? file) async {
-    final fileName = File(file!.path);
+  Reference fireStore = FirebaseStorage.instance.ref();
+
+  Future uploadImage(File? file, {required String rootChild}) async {
+    String url;
+
     try {
-      Reference refDirectoryImage =
-          FirebaseStorage.instance.ref().child("images");
-      final refToUploadImage = refDirectoryImage.child(convertUniqeTime);
-      _uploadTask = refToUploadImage.putFile(fileName);
+      Reference refDirectoryImage = fireStore.child("/$rootChild");
+      final refToUploadImage = refDirectoryImage.child("$convertUniqeTime.jpg");
+      _uploadTask = refToUploadImage.putFile(file!);
       final snapshot = await _uploadTask!.whenComplete(() {});
-      return await snapshot.ref.getDownloadURL();
+      url = await snapshot.ref.getDownloadURL();
+      return url;
     } catch (errror) {}
   }
+
+  // Future uploadImageProduct(File? file) async {
+  //   final fileName = File(file!.path);
+  //   try {
+  //     Reference refDirectoryImage = fireStore.child("/images");
+  //     final refToUploadImage =
+  //         refDirectoryImage.child("$convertUniqeTime.image");
+  //     _uploadTask = refToUploadImage.putFile(fileName);
+  //     final snapshot = await _uploadTask!.whenComplete(() {});
+  //     return await snapshot.ref.getDownloadURL();
+  //   } catch (errror) {}
+  // }
 
   Future updateImage(String urlUmage) async {
     try {

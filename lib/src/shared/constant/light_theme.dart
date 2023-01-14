@@ -13,19 +13,23 @@ ThemeData lightTheme() {
         //   borderRadius: BorderRadius.circular(64.0),
         // ),
         shape: const StadiumBorder(),
-        foregroundColor: Colors.white,
+        foregroundColor: AppColor.whiteColor,
       ),
     ),
     appBarTheme: AppBarTheme(
-      elevation: 0.6,
-      titleTextStyle: GoogleFonts.montserrat(
-        color: AppColor.blackColor,
-        fontWeight: FontWeight.bold,
-      ),
-      iconTheme: const IconThemeData(
-        color: AppColor.blackColor,
-      ),
-    ),
+        surfaceTintColor: AppColor.whiteColor,
+        elevation: 0.6,
+        titleTextStyle: GoogleFonts.poppins(
+            color: AppColor.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 22.0),
+        iconTheme: const IconThemeData(
+          color: AppColor.whiteColor,
+        ),
+        actionsIconTheme: const IconThemeData(
+          color: AppColor.whiteColor,
+        ),
+        backgroundColor: AppColor.appBarColor),
     scaffoldBackgroundColor: AppColor.whiteColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       // backgroundColor: Color(0xff26354F),

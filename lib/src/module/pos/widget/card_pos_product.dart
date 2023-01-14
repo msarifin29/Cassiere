@@ -2,7 +2,6 @@ import 'package:cassiere/core.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/product_model.dart';
-import '../../../shared/constant/app_color.dart';
 import 'custom_button_quantity.dart';
 
 class CardPosProduct extends StatelessWidget {
@@ -22,14 +21,19 @@ class CardPosProduct extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Card(
-      color: AppColor.grey200,
       child: Row(
         children: [
           Container(
             height: size.height * 0.15,
             width: size.width * 0.32,
             padding: const EdgeInsets.all(AppSize.s8),
-            child: CachedNetworkImage(imageUrl: item.image),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppSize.s12),
+              child: CachedNetworkImage(
+                imageUrl: item.image!,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Container(
             width: sizeWidth * 0.65,
@@ -37,22 +41,28 @@ class CardPosProduct extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSize.s6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  item.title,
+                  item.title!,
                   style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: AppSize.s6,
                 ),
                 Text(
                   "Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.price)}",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const SizedBox(
+                  height: AppSize.s12,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      """${item.quantity.toString()} x Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.quantity * item.price)}""",
-                      style: Theme.of(context).textTheme.titleSmall,
+                      """${item.quantity.toString()} x Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.quantity)}""",
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     SizedBox(
                       width: size.width * 0.25,

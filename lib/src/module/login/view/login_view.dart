@@ -1,3 +1,4 @@
+import 'package:cassiere/src/module/product_form/widget/select_dialog.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
@@ -7,85 +8,74 @@ class LoginView extends StatefulWidget {
 
   Widget build(context, LoginController controller) {
     controller.view = this;
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                // image: NetworkImage(
-                //   "https://i.ibb.co/Y20L5Mr/photo-1502899576159-f224dc2349fa-ixlib-rb-4-0.jpg",
-                // ),
-                image: AssetImage("assets/images/background.jpg"),
-                fit: BoxFit.fitHeight,
+      body: Container(
+        alignment: Alignment.center,
+        height: sizeHeight * 0.8,
+        margin: const EdgeInsets.symmetric(vertical: 150.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.jpg"),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Cassiere",
+              style: GoogleFonts.cinzel(
+                  fontSize: AppSize.s70,
+                  color: AppColor.appBarColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: AppSize.s60,
+              width: size.width * 0.5,
+              // decoration: BoxDecoration(
+              //     border: Border.all(),
+              //     borderRadius: BorderRadius.circular(AppSize.s14)),
+              child: InkWell(
+                onTap: () async {
+                  selectDialog(
+                    iconFirst: MdiIcons.accountOutline,
+                    titleFirst: "Customer",
+                    onPressedFirst: () async {
+                      controller.doLoginAsMember();
+                      await Get.back();
+                    },
+                    iconSecond: MdiIcons.accountTieOutline,
+                    titleSecond: "Owner",
+                    onPressedSecond: () async {
+                      controller.doLoginAsVendor();
+                      await Get.back();
+                    },
+                  );
+                },
+                child: Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/images/google.png",
+                        height: AppSize.s40,
+                        width: AppSize.s60,
+                      ),
+                      const SizedBox(
+                        width: AppSize.s12,
+                      ),
+                      Text(
+                        "Sign in",
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            fontWeight: FontWeight.w700, color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: sizeHeight * 0.7,
-            margin: const EdgeInsets.symmetric(vertical: 150.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: AppSize.s40,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(250.0 * 0.5),
-                  child: Image.asset(
-                    "assets/images/logo.png",
-                    width: 250.0,
-                    height: 250.0,
-                    // width: Get.width / 1.7,
-                    // height: Get.width / 1.7,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(
-                  height: AppSize.s100,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: 48.0,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(MdiIcons.google),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.greenColor,
-                    ),
-                    label: const Text("Sign in Member"),
-                    onPressed: () => controller.doLoginAsMember(),
-                  ),
-                ),
-                const SizedBox(
-                  height: AppSize.s20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: 48.0,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(MdiIcons.google),
-                    label: const Text("Sign in Vendor"),
-                    onPressed: () => controller.doLoginAsVendor(),
-                  ),
-                ),
-                const SizedBox(
-                  height: AppSize.s12,
-                ),
-                const Text(
-                  "Term of service",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

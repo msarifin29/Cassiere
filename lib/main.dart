@@ -1,37 +1,19 @@
-import 'package:cassiere/src/module/main_vendor/view/main_vendor_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+// ignore_for_file: unnecessary_null_comparison
+
+import 'package:cassiere/src/service/local_service.dart/hive_service.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'core.dart';
-import 'src/service/local_service.dart/hive_service.dart';
 
 void main() async {
   await initialize();
-  if (!kIsWeb) {
-    var path = await getTemporaryDirectory();
-    Hive.init(path.path);
-  }
+  await HiveProductService.instance.init();
 
-  mainStorage = await Hive.openBox(productBox);
-  HiveProductService.instance.load();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  Widget isLogin() {
-    bool isVendor = AuthService.isVendor;
-    final userId = FirebaseAuth.instance.currentUser;
-    if (userId != null) {
-      return isVendor ? const MainMemberView() : const MainVendorView();
-    } else {
-      return const LoginView();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme(),
       darkTheme: darkTheme(),
-      home: isLogin(),
+      home: const VendorDashboardView(),
     );
   }
 }

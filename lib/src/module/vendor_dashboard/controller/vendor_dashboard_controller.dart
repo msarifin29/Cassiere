@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cassiere/core.dart';
 import 'package:flutter/material.dart';
@@ -78,13 +77,11 @@ class VendorDashboardController extends State<VendorDashboardView>
   scanQrCode() async {
     var qrCode = await showQrcodeScanner();
     var obj = jsonDecode(qrCode);
-    log(obj.toString());
-    log(obj.toString());
 
     await PointService.addPoint(
       point: double.parse("${obj["point"] ?? 0}"),
       total: double.parse("${obj["total"] ?? 0}"),
     );
-    showInfoDialog("Your order is success!!!\n $qrCode");
+    showInfoDialog("Your order is success!!!\n ${qrCode["total"]}");
   }
 }

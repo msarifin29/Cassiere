@@ -1,10 +1,10 @@
 import 'package:cassiere/state_util.dart';
 import 'package:flutter/material.dart';
-import '../view/chat_view.dart';
+import '../view/category_list_view.dart';
 
-class ChatController extends State<ChatView> implements MvcController {
-  static late ChatController instance;
-  late ChatView view;
+class SalesController extends State<SalesView> implements MvcController {
+  static late SalesController instance;
+  late SalesView view;
 
   @override
   void initState() {

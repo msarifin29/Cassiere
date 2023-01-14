@@ -1,7 +1,5 @@
-export 'package:cassiere/src/module/category_list/controller/category_list_controller.dart';
-export 'package:cassiere/src/module/category_list/view/category_list_view.dart';
-export 'package:cassiere/src/module/chat/controller/chat_controller.dart';
-export 'package:cassiere/src/module/chat/view/chat_view.dart';
+export 'package:cassiere/src/module/sales/controller/sales_controller.dart';
+export 'package:cassiere/src/module/sales/view/category_list_view.dart';
 export 'package:cassiere/src/module/member_dashboard/controller/member_dashboard_controller.dart';
 export 'package:cassiere/src/module/member_dashboard/view/member_dashboard_view.dart';
 export 'package:cassiere/src/module/vendor_dashboard/controller/vendor_dashboard_controller.dart';

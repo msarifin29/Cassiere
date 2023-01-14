@@ -9,7 +9,7 @@ class MainVendorView extends StatefulWidget {
     controller.view = this;
     List<Widget> screens = [
       const VendorDashboardView(),
-      const ChatView(),
+      const ProductListView(),
       const ProfileView(),
     ];
     return DefaultTabController(
@@ -25,16 +25,12 @@ class MainVendorView extends StatefulWidget {
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(MdiIcons.homeCircleOutline),
+              icon: Icon(MdiIcons.homeOutline),
               label: "Home",
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(MdiIcons.handCoinOutline),
-            //   label: "Point",
-            // ),
             BottomNavigationBarItem(
-              icon: Icon(MdiIcons.chatProcessingOutline),
-              label: "Chat",
+              icon: Icon(MdiIcons.viewDashboardOutline),
+              label: "Catalog",
             ),
             BottomNavigationBarItem(
               icon: Icon(MdiIcons.accountCircleOutline),

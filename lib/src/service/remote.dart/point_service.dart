@@ -10,6 +10,7 @@ class PointService {
     await FirebaseFirestore.instance.collection("points").add({
       "point": point,
       "total": total,
+      "date": DateTime.now(),
       "user": UserService.instance.getUserData(),
     });
     if (kDebugMode) {

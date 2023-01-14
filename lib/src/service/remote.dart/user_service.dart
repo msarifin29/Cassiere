@@ -28,7 +28,7 @@ class UserService {
     required double point,
   }) async {
     await userCollection.update({
-      "point": FieldValue.increment(point),
+      "point": point, // FieldValue.increment(point)
     });
   }
 

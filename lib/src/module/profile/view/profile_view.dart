@@ -1,7 +1,10 @@
 import 'package:cassiere/src/shared/constant/app_color.dart';
+import 'package:cassiere/src/shared/constant/app_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
+
+import '../widget/custom_list_tile.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({
@@ -13,27 +16,10 @@ class ProfileView extends StatefulWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: const Text("Profile"),
+        title: const Text(
+          "Profile",
+        ),
         centerTitle: true,
-        actions: [
-          PopupMenuButton(
-            color: AppColor.whiteColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s12),
-            ),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: TextButton.icon(
-                  onPressed: () => controller.doLogout(),
-                  icon: const Icon(MdiIcons.logout),
-                  label: const Text("Logout"),
-                  style: TextButton.styleFrom(foregroundColor: Colors.red),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: userCollection.snapshots(),
@@ -58,10 +44,25 @@ class ProfileView extends StatefulWidget {
                 onTap: () => controller.editUserPhoto(),
                 child: Stack(
                   children: [
-                    CircleAvatar(
-                      radius: AppSize.s100,
-                      backgroundImage: NetworkImage("${user['photo']}"),
-                    ),
+                    Container(
+                        height: AppSize.s250,
+                        width: AppSize.s250,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: AppColor.grey300),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                  AppString.imageOffline,
+                                ),
+                                fit: BoxFit.cover),
+                            color: AppColor.grey300,
+                            shape: BoxShape.circle),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(AppSize.s250 / 2),
+                          child: Image.network(
+                            "${user['photo']}",
+                            fit: BoxFit.cover,
+                          ),
+                        )),
                     Positioned(
                       right: AppSize.s6,
                       bottom: AppSize.s6,
@@ -102,6 +103,15 @@ class ProfileView extends StatefulWidget {
           );
         },
       ),
+      bottomNavigationBar: Container(
+        height: AppSize.s50,
+        padding: const EdgeInsets.symmetric(horizontal: AppSize.s50),
+        margin: const EdgeInsets.only(bottom: AppSize.s70),
+        child: ElevatedButton(
+          onPressed: () => controller.signOut(context),
+          child: const Text("Sign out"),
+        ),
+      ),
     );
   }
 
@@ -109,42 +119,43 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => ProfileController();
 }
 
-class CustomListTile extends StatelessWidget {
-  const CustomListTile({
-    super.key,
-    required this.leadingIcon,
-    required this.title,
-    required this.subtitle,
-    this.trailingIcon,
-    this.onPressed,
-  });
-  final IconData leadingIcon;
-  final String title;
-  final String subtitle;
-  final IconData? trailingIcon;
-  final Function()? onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(leadingIcon),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: AppSize.s14,
-          fontWeight: FontWeight.w400,
+Future logOutDialog(BuildContext context, {required Function()? onContinue}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Are you sure you ?',
+          style: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(color: AppColor.grey600),
         ),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: const TextStyle(
-          fontSize: AppSize.s16,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      trailing: IconButton(
-        onPressed: onPressed,
-        icon: Icon(trailingIcon),
-      ),
-    );
-  }
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                // style: ElevatedButton.styleFrom(
+                //   backgroundColor: AppColor.appBarColor,
+                // ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text("No"),
+              ),
+              ElevatedButton(
+                // style: ElevatedButton.styleFrom(
+                //   backgroundColor: AppColor.appBarColor,
+                // ),
+                onPressed: onContinue,
+                child: const Text("Yes"),
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
 }
