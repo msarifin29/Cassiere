@@ -41,7 +41,6 @@ class CardPosProduct extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSize.s6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
                   item.title!,

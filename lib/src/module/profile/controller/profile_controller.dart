@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:cassiere/core.dart';
-import 'package:cassiere/src/service/remote.dart/firebase_storage_service.dart';
+import 'package:cassiere/src/shared/utils/info_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ProfileController extends State<ProfileView> implements MvcController {
+import '../../../shared/utils/validator.dart';
+
+class ProfileController extends State<ProfileView> {
   static late ProfileController instance;
   late ProfileView view;
   late TextEditingController userController;
@@ -28,12 +30,12 @@ class ProfileController extends State<ProfileView> implements MvcController {
   Widget build(BuildContext context) => widget.build(context, this);
 
   signOut(BuildContext context) async {
-    // await AuthService.doLogout();
-    // Get.offAll(const LoginView());
-    await logOutDialog(context, onContinue: () async {
-      await AuthService.doLogout();
-      Get.offAll(const LoginView());
-    });
+    await infoDialog(
+        title: "Are you sure ?",
+        onContinue: () async {
+          await AuthService.doLogout();
+          Get.offAll(const LoginView());
+        });
   }
 
   void editUserName({
@@ -81,9 +83,9 @@ class ProfileController extends State<ProfileView> implements MvcController {
 
   void editUserPhoto() async {
     await _pickedImage();
-    String urlImage = await FirebaseStorageService.instance
-        .uploadImage(image!, rootChild: "profile");
-    UserService.instance.uploadImage(imageUrl: urlImage);
+    String urlImage =
+        await UserService.instance.uploadImage(image!, rootChild: "profile");
+    UserService.instance.updateProfile(imageUrl: urlImage);
     if (kDebugMode) {
       print("sukses upload image");
     }

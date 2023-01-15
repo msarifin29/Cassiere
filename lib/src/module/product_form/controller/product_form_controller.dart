@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:cassiere/core.dart';
-import 'package:cassiere/src/service/remote.dart/product_service.dart';
+import 'package:cassiere/src/service/remote_service.dart/product_service.dart';
 import 'package:flutter/material.dart';
 
 class ProductFormController extends State<ProductFormView> {
@@ -15,7 +15,7 @@ class ProductFormController extends State<ProductFormView> {
   String description = "";
   String category = "";
   int quantity = 0;
-  File? image;
+  // File? image;
   String? imageProduct;
   bool isLoading = false;
   bool isSelected = false;
@@ -31,7 +31,6 @@ class ProductFormController extends State<ProductFormView> {
       price = widget.product!.price!;
       category = widget.product!.category!;
       description = widget.product!.description!;
-      // image = File(widget.product!.image!);
       imageProduct = widget.product!.image!;
     }
     super.initState();
@@ -55,14 +54,13 @@ class ProductFormController extends State<ProductFormView> {
     setState(() {});
   }
 
-  void addOrUpdateProduct() async {
+  Future<void> addOrUpdateProduct() async {
     if (!formKey.currentState!.validate()) return;
 
     if (isEditMode == true) {
-      print("----------$imageProduct");
       if (isSelected == true) {
         final downloadUrl = await productService
-            .uploadImage(File(imageProduct!), rootChild: "images");
+            .uploadImage(File(imageProduct!), rootChild: "/images");
 
         await productService.updateItem(
           idProduct: widget.product!.id!,
@@ -86,8 +84,9 @@ class ProductFormController extends State<ProductFormView> {
           docId: widget.docId!,
         );
       }
+      isLoading = true;
       setState(() {});
-      Get.back();
+      await Get.back();
     } else {
       final id = ProductService.instance.firestore.doc();
       await productService.addProduct(
@@ -99,9 +98,10 @@ class ProductFormController extends State<ProductFormView> {
         category: category,
         description: description,
       );
+      isLoading = true;
 
       setState(() {});
-      Get.back();
+      await Get.back();
     }
   }
 

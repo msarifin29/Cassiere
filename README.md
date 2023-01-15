@@ -1,3 +1,3 @@
 # cassiere
 
-Berasal dari kata itali artinya Kasir
+Final project bootcamp Flutter Intensif CLub

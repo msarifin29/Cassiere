@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cassiere/state_util.dart';
 import '../view/point_history_view.dart';
 
-class PointHistoryController extends State<PointHistoryView>
-    implements MvcController {
+class PointHistoryController extends State<PointHistoryView> {
   static late PointHistoryController instance;
   late PointHistoryView view;
 

@@ -1,7 +1,7 @@
 import 'package:cassiere/core.dart';
 import 'package:flutter/material.dart';
 
-class LoginController extends State<LoginView> implements MvcController {
+class LoginController extends State<LoginView> {
   static late LoginController instance;
   late LoginView view;
 

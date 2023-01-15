@@ -1,71 +1,18 @@
 import 'dart:convert';
 
 import 'package:cassiere/core.dart';
+import 'package:cassiere/src/shared/utils/info_dialog_reverse.dart';
 import 'package:flutter/material.dart';
 
-class MemberDashboardController extends State<MemberDashboardView>
-    implements MvcController {
+class MemberDashboardController extends State<MemberDashboardView> {
   static late MemberDashboardController instance;
   late MemberDashboardView view;
-
-  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     instance = this;
-    // WidgetsBinding.instance.addPostFrameCallback((_) => onReady());
     super.initState();
   }
-
-  // void onReady() async {
-  //   await Future.delayed(const Duration(milliseconds: 600));
-  //   addListenerToScrollController();
-  // }
-
-  // int selectedIndex = 0;
-  // updateIndex(newIndex) {
-  //   selectedIndex = newIndex;
-  //   if (selectedIndex == 0) {
-  //     scrollController.animateTo(
-  //       0,
-  //       duration: const Duration(milliseconds: 900),
-  //       curve: Curves.ease,
-  //     );
-  //   } else {
-  //     scrollController.animateTo(
-  //       scrollController.position.maxScrollExtent,
-  //       duration: const Duration(milliseconds: 900),
-  //       curve: Curves.ease,
-  //     );
-  //   }
-  //   setState(() {});
-  // }
-
-  // addListenerToScrollController() {
-  //   scrollController.addListener(() {
-  //     var offset = scrollController.offset;
-  //     var maxScrollExtent = scrollController.position.maxScrollExtent;
-
-  //     print("offset: $offset");
-  //     print("maxScrollExtent: $maxScrollExtent");
-
-  //     if (offset >= maxScrollExtent / 2) {
-  //       selectedIndex = 1;
-  //     } else {
-  //       selectedIndex = 0;
-  //     }
-  //     setState(() {});
-  //   });
-
-  //   var maxScrollExtent = scrollController.position.maxScrollExtent;
-  //   selectedIndex = 1;
-  //   setState(() {});
-  //   scrollController.animateTo(
-  //     maxScrollExtent,
-  //     duration: const Duration(milliseconds: 400),
-  //     curve: Curves.ease,
-  //   );
-  // }
 
   @override
   void dispose() => super.dispose();
@@ -82,6 +29,8 @@ class MemberDashboardController extends State<MemberDashboardView>
       point: double.parse("${obj["point"] ?? 0}"),
       total: double.parse("${obj["total"] ?? 0}"),
     );
-    showInfoDialog("Congratulation !!! you get \n ${obj["point"]} points");
+    // showInfoDialog("Congratulation !!! you get \n ${obj["point"]} points");
+    infoDialogReverse(
+        title: "Congratulation", desc: "You have ${obj["point"]} point");
   }
 }

@@ -1,8 +1,7 @@
-import 'package:cassiere/state_util.dart';
 import 'package:flutter/material.dart';
-import '../view/category_list_view.dart';
+import '../view/sales_view.dart';
 
-class SalesController extends State<SalesView> implements MvcController {
+class SalesController extends State<SalesView> {
   static late SalesController instance;
   late SalesView view;
 

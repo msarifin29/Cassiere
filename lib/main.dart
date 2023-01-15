@@ -2,13 +2,14 @@
 
 import 'package:cassiere/src/service/local_service.dart/hive_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'core.dart';
 
 void main() async {
   await initialize();
   await HiveProductService.instance.init();
-
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 

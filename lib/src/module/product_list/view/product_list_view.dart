@@ -1,11 +1,12 @@
-import 'package:cassiere/src/shared/constant/app_string.dart';
+import 'package:cassiere/src/shared/utils/info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../models/product_model.dart';
-import '../../../service/remote.dart/product_service.dart';
+import '../../../service/remote_service.dart/product_service.dart';
 import '../../../shared/constant/app_color.dart';
+import '../widget/card_image.dart';
 
 class ProductListView extends StatefulWidget {
   const ProductListView({Key? key}) : super(key: key);
@@ -72,7 +73,11 @@ class ProductListView extends StatefulWidget {
                     children: [
                       SlidableAction(
                         onPressed: (context) {
-                          controller.deleteProduct(value.id);
+                          infoDialog(
+                            title: "Are sure to delete product ?",
+                            onContinue: () =>
+                                controller.deleteProduct(value.id),
+                          );
                         },
                         backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
@@ -93,43 +98,7 @@ class ProductListView extends StatefulWidget {
                       ),
                     ],
                   ),
-                  child: Card(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: AppSize.s100,
-                          width: AppSize.s100,
-                          margin: const EdgeInsets.all(AppSize.s20),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.grey300),
-                            image: const DecorationImage(
-                              image: AssetImage(AppString.imageOffline),
-                            ),
-                            borderRadius: BorderRadius.circular(AppSize.s12),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSize.s12),
-                            child:
-                                Image.network(item.image!, fit: BoxFit.cover),
-                          ),
-                        ),
-                        Container(
-                          width: sizeWidth * 0.45,
-                          padding: const EdgeInsets.only(top: AppSize.s20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.title!),
-                              Text(
-                                  "Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.price)}"),
-                              Text(item.category!),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: CardImage(item: item),
                 ),
               );
             }).toList());

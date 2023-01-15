@@ -1,13 +1,13 @@
 import 'package:cassiere/src/models/product_model.dart';
 import 'package:cassiere/src/service/local_service.dart/hive_service.dart';
-import 'package:cassiere/src/service/remote.dart/product_service.dart';
+import 'package:cassiere/src/service/remote_service.dart/product_service.dart';
 import 'dart:convert';
 import 'package:cassiere/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class PosController extends State<PosView> implements MvcController {
+class PosController extends State<PosView> {
   static late PosController instance;
   late PosView view;
 

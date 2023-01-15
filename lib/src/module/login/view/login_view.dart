@@ -1,4 +1,4 @@
-import 'package:cassiere/src/module/product_form/widget/select_dialog.dart';
+import 'package:cassiere/src/module/login/widget/select_dialog.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
 import 'package:cassiere/src/shared/constant/app_string.dart';
 import 'package:flutter/material.dart';

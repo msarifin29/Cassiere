@@ -67,7 +67,7 @@ class PosView extends StatefulWidget {
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(AppSize.s12),
               ),
-              child: QDropdownField(
+              child: CustomDropdownField(
                 label: "Select Payment",
                 items: const [
                   {
