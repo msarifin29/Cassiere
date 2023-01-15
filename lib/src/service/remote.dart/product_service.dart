@@ -4,26 +4,32 @@ import 'package:cassiere/src/models/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
 class ProductService {
   static final ProductService instance = ProductService._();
   factory ProductService() => instance;
 
   ProductService._();
+  String? downloadUrl;
 
-  bool isLoading = false;
   final userId = FirebaseAuth.instance.currentUser!;
   CollectionReference firestore =
       FirebaseFirestore.instance.collection("products");
 
-  Future<String> uploadImage(File? image, {required String rootChild}) async {
-    int convertUniqeTime = DateTime.now().microsecondsSinceEpoch;
+  Future<String> uploadImage(
+    File? image, {
+    required String rootChild,
+  }) async {
+    final fileName =
+        '${FirebaseAuth.instance.currentUser!.uid}${DateTime.now().second}';
     Reference refDirectoryImage =
-        FirebaseStorage.instance.ref().child("/$rootChild");
-    final refToUploadImage = refDirectoryImage.child("$convertUniqeTime.jpg");
-    UploadTask uploadTask = refToUploadImage.putFile(image!);
-    final snapshot = await uploadTask.whenComplete(() {});
-    return await snapshot.ref.getDownloadURL();
+        FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = refDirectoryImage.putFile(image!);
+    await uploadTask.whenComplete(() async {
+      downloadUrl = await refDirectoryImage.getDownloadURL();
+    });
+    return downloadUrl!;
   }
 
   Stream<QuerySnapshot> fetchAllProduct() {
@@ -39,7 +45,11 @@ class ProductService {
     final docRef = firestore.doc(docId);
     try {
       await docRef.update(data);
-    } catch (error) {}
+    } catch (error) {
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    }
   }
 
   Future deleteProduct({required String docId}) async {
@@ -47,21 +57,25 @@ class ProductService {
       final docRef = firestore.doc(docId);
 
       await docRef.delete();
-    } catch (error) {}
+    } catch (error) {
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    }
   }
 
-  Future<void> additem({
+  Future<void> addProduct({
     required String id,
-    required File? image,
+    required String? image,
     required String title,
     required double price,
     required int quantity,
     required String category,
     required String description,
   }) async {
-    isLoading = true;
     final docId = firestore.doc();
-    final downloadImageUrl = await uploadImage(image, rootChild: "images");
+    final downloadImageUrl =
+        await uploadImage(File(image!), rootChild: "images");
     ProductModel item = ProductModel(
         id: id,
         title: title,
@@ -70,16 +84,14 @@ class ProductService {
         quantity: quantity,
         description: description,
         image: downloadImageUrl);
-    // item.id = id;
-    // item.title = title;
-    // item.price = price;
-    // item.category = category;
-    // item.quantity = quantity;
-    // item.description = description;
-    // item.image = downloadImageUrl;
+
     try {
       firestore.doc(docId.id).set(item.toJson());
-    } catch (error) {}
+    } catch (error) {
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    }
   }
 
   Future<void> updateItem({
@@ -92,19 +104,22 @@ class ProductService {
     required String description,
     required String docId,
   }) async {
-    isLoading = true;
-    // final downloadImageUrl = await uploadImage(image, rootChild: "images");
-
     try {
-      firestore.doc(docId).update({
+      Map<String, dynamic> data = {
         "id": idProduct,
         "title": title,
         "price": price,
         "quantity": quantity,
         "category": category,
         "description": description,
-        "images": image,
-      });
-    } catch (error) {}
+        "image": image,
+      };
+
+      await firestore.doc(docId).update(data);
+    } catch (error) {
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    }
   }
 }

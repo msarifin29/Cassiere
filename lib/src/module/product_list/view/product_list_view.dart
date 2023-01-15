@@ -102,13 +102,17 @@ class ProductListView extends StatefulWidget {
                           width: AppSize.s100,
                           margin: const EdgeInsets.all(AppSize.s20),
                           decoration: BoxDecoration(
-                            border: Border.all(),
+                            border: Border.all(color: AppColor.grey300),
                             image: const DecorationImage(
                               image: AssetImage(AppString.imageOffline),
                             ),
                             borderRadius: BorderRadius.circular(AppSize.s12),
                           ),
-                          child: Image.network(item.image!, fit: BoxFit.cover),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppSize.s12),
+                            child:
+                                Image.network(item.image!, fit: BoxFit.cover),
+                          ),
                         ),
                         Container(
                           width: sizeWidth * 0.45,

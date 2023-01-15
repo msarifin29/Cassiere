@@ -1,5 +1,6 @@
 import 'package:cassiere/src/module/product_form/widget/select_dialog.dart';
 import 'package:cassiere/src/shared/constant/app_color.dart';
+import 'package:cassiere/src/shared/constant/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
 
@@ -12,13 +13,9 @@ class LoginView extends StatefulWidget {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        height: sizeHeight * 0.8,
+        height: size.height * 0.8,
+        width: size.width,
         margin: const EdgeInsets.symmetric(vertical: 150.0),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-          ),
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -29,12 +26,13 @@ class LoginView extends StatefulWidget {
                   color: AppColor.appBarColor,
                   fontWeight: FontWeight.bold),
             ),
+            const CircleAvatar(
+              radius: AppSize.s150,
+              backgroundImage: AssetImage(AppString.iconImage),
+            ),
             SizedBox(
               height: AppSize.s60,
               width: size.width * 0.5,
-              // decoration: BoxDecoration(
-              //     border: Border.all(),
-              //     borderRadius: BorderRadius.circular(AppSize.s14)),
               child: InkWell(
                 onTap: () async {
                   selectDialog(

@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:cassiere/src/models/product_model.dart';
-import 'package:cassiere/src/module/product_form/widget/select_dialog.dart';
+import 'package:cassiere/src/shared/constant/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:cassiere/core.dart';
 
@@ -185,71 +187,55 @@ class ProductFormView extends StatefulWidget {
             key: controller.formKey,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: controller.isEditMode == true
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.spaceAround,
-                  children: [
-                    if (controller.isEditMode == true)
-                      Container(
-                        height: AppSize.s200,
-                        width: AppSize.s200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(product!.image!),
-                          ),
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(AppSize.s12),
-                        ),
-                      )
-                    else
-                      Container(
-                        height: AppSize.s200,
-                        width: AppSize.s200,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(AppSize.s12),
-                        ),
-                        child: controller.image != null
-                            ? Image.file(controller.image!)
-                            : Icon(
-                                MdiIcons.camera,
-                                color: AppColor.grey300,
-                                size: AppSize.s100,
-                              ),
+                if (controller.isEditMode == true)
+                  GestureDetector(
+                    onTap: () {
+                      controller.pickedImage(ImageSource.gallery);
+                    },
+                    child: Container(
+                      height: AppSize.s200,
+                      width: AppSize.s200,
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(),
                       ),
-                    controller.isEditMode == false
-                        ? SizedBox(
-                            height: AppSize.s40,
-                            width: sizeWidth * 0.3,
-                            child: Builder(
-                              builder: (context) {
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    selectDialog(
-                                        iconFirst: MdiIcons.camera,
-                                        titleFirst: "Camera",
-                                        onPressedFirst: () async {
-                                          controller
-                                              .pickedImage(ImageSource.camera);
-                                          await Get.back();
-                                        },
-                                        iconSecond: MdiIcons.fileImage,
-                                        titleSecond: "Galery",
-                                        onPressedSecond: () async {
-                                          controller
-                                              .pickedImage(ImageSource.gallery);
-                                          await Get.back();
-                                        });
-                                  },
-                                  child: const Text("Select Image"),
-                                );
-                              },
+                      child: controller.imageProduct == null
+                          ? Image.asset(
+                              AppString.imageOffline,
+                              fit: BoxFit.cover,
+                            )
+                          : controller.imageProduct!.contains("http")
+                              ? Image.network(
+                                  controller.imageProduct!,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(File(
+                                  controller.imageProduct!,
+                                )),
+                    ),
+                  )
+                else
+                  GestureDetector(
+                    onTap: () {
+                      controller.pickedImage(ImageSource.gallery);
+                    },
+                    child: Container(
+                      height: AppSize.s200,
+                      width: AppSize.s200,
+                      padding: const EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(AppSize.s12),
+                      ),
+                      child: controller.imageProduct != null
+                          ? Image.file(File(controller.imageProduct!))
+                          : Icon(
+                              MdiIcons.camera,
+                              color: AppColor.grey300,
+                              size: AppSize.s100,
                             ),
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
+                    ),
+                  ),
                 const SizedBox(
                   height: AppSize.s20,
                 ),

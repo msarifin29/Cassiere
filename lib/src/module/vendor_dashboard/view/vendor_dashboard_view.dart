@@ -84,55 +84,57 @@ class VendorDashboardView extends StatefulWidget {
   State<VendorDashboardView> createState() => VendorDashboardController();
 }
 
-class CustomCardVendor extends StatelessWidget {
-  const CustomCardVendor({
-    Key? key,
-    this.onTap,
-  }) : super(key: key);
-  final Function()? onTap;
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: Get.height * 0.3,
-      child: Card(
-        color: AppColor.cardColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const CardProfileUser(),
-            Container(
-              width: Get.width * 0.3,
-              margin: const EdgeInsets.symmetric(
-                vertical: AppSize.s12,
-                horizontal: AppSize.s12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s12),
-                color: AppColor.whiteColor,
-              ),
-              child: InkWell(
-                onTap: onTap,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      MdiIcons.qrcode,
-                      size: AppSize.s50,
-                      color: AppColor.blackColor,
-                    ),
-                    Text(
-                      "Scan QRCode",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColor.blackColor,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class CustomCardVendor extends StatelessWidget {
+//   const CustomCardVendor({
+//     Key? key,
+//     this.onTap,
+//   }) : super(key: key);
+
+//   final Function()? onTap;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: Get.height * 0.3,
+//       child: Card(
+//         color: AppColor.cardColor,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             const CardProfileUser(),
+//             Container(
+//               width: Get.width * 0.3,
+//               margin: const EdgeInsets.symmetric(
+//                 vertical: AppSize.s12,
+//                 horizontal: AppSize.s12,
+//               ),
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(AppSize.s12),
+//                 color: AppColor.whiteColor,
+//               ),
+//               child: InkWell(
+//                 onTap: onTap,
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     const Icon(
+//                       MdiIcons.qrcode,
+//                       size: AppSize.s50,
+//                       color: AppColor.blackColor,
+//                     ),
+//                     Text(
+//                       "Scan QRCode",
+//                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
+//                             color: AppColor.blackColor,
+//                           ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

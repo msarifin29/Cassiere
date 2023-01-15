@@ -16,7 +16,10 @@ class ProductFormController extends State<ProductFormView> {
   String category = "";
   int quantity = 0;
   File? image;
+  String? imageProduct;
   bool isLoading = false;
+  bool isSelected = false;
+
   ProductService productService = ProductService.instance;
 
   @override
@@ -28,7 +31,8 @@ class ProductFormController extends State<ProductFormView> {
       price = widget.product!.price!;
       category = widget.product!.category!;
       description = widget.product!.description!;
-      image = File(widget.product!.image!);
+      // image = File(widget.product!.image!);
+      imageProduct = widget.product!.image!;
     }
     super.initState();
   }
@@ -46,74 +50,56 @@ class ProductFormController extends State<ProductFormView> {
     final XFile? imageGalery =
         await ImagePicker().pickImage(source: imageSource);
     if (imageGalery == null) return;
-    image = File(imageGalery.path);
-
+    imageProduct = imageGalery.path;
+    isSelected = true;
     setState(() {});
   }
 
-  // String convertUniqeTime() {
-  //   return DateTime.now().millisecondsSinceEpoch.toString();
-  // }
-
   void addOrUpdateProduct() async {
     if (!formKey.currentState!.validate()) return;
-    // final urlImage = await FirebaseStorageService.instance
-    //     .uploadImage(image!, rootChild: "images");
-    if (isEditMode == true) {
-      isLoading = true;
 
-      // ProductModel products = ProductModel(
-      //   id: widget.products!.id,
-      //   title: title,
-      //   price: price,
-      //   category: category,
-      //   quantity: quantity,
-      //   description: description,
-      //   image: widget.products!.image,
-      // );
-      // await productService.updateProduct(products.toJson(),
-      //     docId: widget.docId!);
-      // await productService.updateItem(
-      //     idProduct: widget.products!.id!,
-      //     image: File(widget.products!.image!),
-      //     title: title,
-      //     price: price,
-      //     quantity: quantity,
-      //     category: category,
-      //     description: description,
-      //     docId: widget.docId!);
-      await productService.updateItem(
+    if (isEditMode == true) {
+      print("----------$imageProduct");
+      if (isSelected == true) {
+        final downloadUrl = await productService
+            .uploadImage(File(imageProduct!), rootChild: "images");
+
+        await productService.updateItem(
           idProduct: widget.product!.id!,
-          image: widget.product!.image!,
+          image: downloadUrl,
           title: title,
           price: price,
           quantity: quantity,
           category: category,
           description: description,
-          docId: widget.docId!);
-      setState(() {});
-      Get.back();
-    } else {
-      isLoading = true;
-
-      final id = ProductService.instance.firestore.doc();
-      await productService.additem(
-          id: id.id,
-          image: image,
+          docId: widget.docId!,
+        );
+      } else {
+        await productService.updateItem(
+          idProduct: widget.product!.id!,
+          image: imageProduct,
           title: title,
           price: price,
           quantity: quantity,
           category: category,
-          description: description);
-      // ProductModel newProduct = ProductModel(
-      //     id: id.id,
-      //     title: title,
-      //     price: price,
-      //     category: category,
-      //     quantity: quantity,
-      //     description: description,
-      //     image: urlImage);
-      // await productService.addProduct(newProduct.toJson());
+          description: description,
+          docId: widget.docId!,
+        );
+      }
+      setState(() {});
+      Get.back();
+    } else {
+      final id = ProductService.instance.firestore.doc();
+      await productService.addProduct(
+        id: id.id,
+        image: imageProduct,
+        title: title,
+        price: price,
+        quantity: quantity,
+        category: category,
+        description: description,
+      );
+
       setState(() {});
       Get.back();
     }

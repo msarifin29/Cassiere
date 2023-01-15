@@ -13,12 +13,7 @@ class PosView extends StatefulWidget {
     controller.view = this;
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Casir",
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text("Casir"), centerTitle: true),
       body: SizedBox(
         height: size.height * 0.7,
         child: ListView.builder(
