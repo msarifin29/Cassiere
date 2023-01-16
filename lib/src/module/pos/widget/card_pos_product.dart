@@ -60,7 +60,7 @@ class CardPosProduct extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      """${item.quantity.toString()} x Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.quantity)}""",
+                      """${item.quantity.toString()} x Rp. ${NumberFormat.currency(locale: 'ID', symbol: "", decimalDigits: 0).format(item.price! * item.quantity)}""",
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                     SizedBox(
