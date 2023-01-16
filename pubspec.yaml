@@ -51,6 +51,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   flutter_launcher_icons: ^0.11.0
   awesome_dialog: ^3.0.2
+  flutter_native_splash: ^2.2.16
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +60,11 @@ dev_dependencies:
   freezed: ^2.3.2
   build_runner: ^2.3.2
   json_serializable: ^6.5.4
+
+flutter_native_splash:
+  image: assets/images/casir.png
+  color: "#ffffff"
+  android: true
 
 flutter:
   uses-material-design: true

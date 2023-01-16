@@ -21,87 +21,92 @@ class ProfileView extends StatefulWidget {
         ),
         centerTitle: true,
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: userCollection.snapshots(),
-        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return const Center(child: Text("request failed"));
-          }
-          Map<String, dynamic> user =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: AppSize.s40,
-              ),
-              GestureDetector(
-                onTap: () => controller.editUserPhoto(),
-                child: Stack(
-                  children: [
-                    Container(
-                        height: AppSize.s250,
-                        width: AppSize.s250,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.grey300),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  AppString.imageOffline,
-                                ),
-                                fit: BoxFit.cover),
-                            color: AppColor.grey300,
-                            shape: BoxShape.circle),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(AppSize.s250 / 2),
-                          child: Image.network(
-                            "${user['photo']}",
-                            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: userCollection.snapshots(),
+          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text("request failed"));
+            }
+            Map<String, dynamic> user =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: AppSize.s40,
+                ),
+                GestureDetector(
+                  onTap: () => controller.editUserPhoto(),
+                  child: Stack(
+                    children: [
+                      Container(
+                          height: AppSize.s250,
+                          width: AppSize.s250,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.grey300),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                    AppString.imageOffline,
+                                  ),
+                                  fit: BoxFit.cover),
+                              color: AppColor.grey300,
+                              shape: BoxShape.circle),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(AppSize.s250 / 2),
+                            child: Image.network(
+                              "${user['photo']}",
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                      Positioned(
+                        right: AppSize.s6,
+                        bottom: AppSize.s6,
+                        child: CircleAvatar(
+                          radius: AppSize.s30,
+                          backgroundColor: AppColor.grey400,
+                          child: IconButton(
+                            color: Colors.white,
+                            icon: const Icon(
+                              MdiIcons.cameraOutline,
+                              size: AppSize.s30,
+                            ),
+                            onPressed: () {
+                              controller.editUserPhoto();
+                            },
                           ),
-                        )),
-                    Positioned(
-                      right: AppSize.s6,
-                      bottom: AppSize.s6,
-                      child: CircleAvatar(
-                        radius: AppSize.s30,
-                        backgroundColor: AppColor.grey400,
-                        child: IconButton(
-                          color: Colors.white,
-                          icon: const Icon(
-                            MdiIcons.cameraOutline,
-                            size: AppSize.s30,
-                          ),
-                          onPressed: () {
-                            controller.editUserPhoto();
-                          },
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: AppSize.s40,
-              ),
-              CustomListTile(
-                leadingIcon: MdiIcons.accountBadgeOutline,
-                title: "Name",
-                subtitle: "${user['name']}",
-                trailingIcon: MdiIcons.pencilOutline,
-                onPressed: () => controller.editUserName(
-                    context: context, name: user["name"]),
-              ),
-              CustomListTile(
-                  title: "Email",
-                  subtitle: "${user['email']}",
-                  leadingIcon: MdiIcons.emailCheckOutline),
-            ],
-          );
-        },
+                const SizedBox(
+                  height: AppSize.s40,
+                ),
+                CustomListTile(
+                  leadingIcon: MdiIcons.accountBadgeOutline,
+                  title: "Name",
+                  subtitle: "${user['name']}",
+                  trailingIcon: MdiIcons.pencilOutline,
+                  onPressed: () => controller.editUserName(
+                    context: context,
+                    name: user['name'],
+                  ),
+                ),
+                CustomListTile(
+                    title: "Email",
+                    subtitle: "${user['email']}",
+                    leadingIcon: MdiIcons.emailCheckOutline),
+              ],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: Container(
         height: AppSize.s50,

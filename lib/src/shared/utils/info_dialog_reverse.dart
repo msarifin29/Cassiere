@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cassiere/state_util.dart';
 
-Future infoDialogReverse({String? title, required String desc}) {
+Future infoDialogReverse({String? title, String? desc}) {
   return AwesomeDialog(
           context: globalContext,
           dialogType: DialogType.success,
@@ -10,7 +10,7 @@ Future infoDialogReverse({String? title, required String desc}) {
           title: title,
           reverseBtnOrder: true,
           autoHide: const Duration(seconds: 5),
-          btnOkOnPress: () {},
+          // btnOkOnPress: () {},
           // btnCancelOnPress: () {},
           desc: desc)
       .show();

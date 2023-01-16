@@ -74,7 +74,7 @@ class ProductListView extends StatefulWidget {
                       SlidableAction(
                         onPressed: (context) {
                           infoDialog(
-                            title: "Are sure to delete product ?",
+                            title: "Are you sure to delete product ?",
                             onContinue: () =>
                                 controller.deleteProduct(value.id),
                           );

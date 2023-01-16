@@ -31,7 +31,7 @@ class ProfileController extends State<ProfileView> {
 
   signOut(BuildContext context) async {
     await infoDialog(
-        title: "Are you sure ?",
+        title: "Are you sure to logout ?",
         onContinue: () async {
           await AuthService.doLogout();
           Get.offAll(const LoginView());
@@ -58,14 +58,28 @@ class ProfileController extends State<ProfileView> {
             },
           ),
           actions: <Widget>[
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueGrey,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(userController.text);
-              },
-              child: const Text("Save"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(userController.text);
+                  },
+                  child: const Text("Save"),
+                ),
+              ],
             ),
           ],
         );

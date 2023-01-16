@@ -24,13 +24,13 @@ class MemberDashboardController extends State<MemberDashboardView> {
     var qrCode = await showQrcodeScanner();
     var obj = jsonDecode(qrCode);
     // log(obj.toString());
-
+    if (obj == null) return;
     await PointService.addPoint(
       point: double.parse("${obj["point"] ?? 0}"),
       total: double.parse("${obj["total"] ?? 0}"),
     );
     // showInfoDialog("Congratulation !!! you get \n ${obj["point"]} points");
     infoDialogReverse(
-        title: "Congratulation", desc: "You have ${obj["point"]} point");
+        title: "Congratulation \n You have ${obj["point"].toInt()} point");
   }
 }
